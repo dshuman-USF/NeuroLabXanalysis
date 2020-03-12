@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm -f nohup.out
+cwd=`realpath .`
+USE_MINMAX=on daemon -o nohup.out -D $cwd xvfb-run ${1:-./script.exp}

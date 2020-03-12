@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export XANALYSIS_CONTROL=cycle_shift
+xanalysis

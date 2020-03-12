@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if xanalysis_make_script ; then
+    xanalysis_run_script
+fi
+

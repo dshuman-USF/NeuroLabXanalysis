@@ -1,0 +1,2225 @@
+2020-02-26  dshuman@usf.edu
+
+	* showCCHs6_newshift.f: Added addition text for primary feature and the
+	stats for it. This was included inadvertantly in version 6.11.10 and had a
+	couple of errors that have been fixed.
+	Also found an embedded 0x00 byte in string which confused some editors and
+	utilites like 'file'. Replace with //char(0).
+	* configure.ac: Bump to 6.11.11.
+
+2020-02-19  dshuman@usf.edu
+
+	* configure.ac: Bump to 6.11.10. The only change was to edit all the
+	sources listed in Makefile.am to add in GPL text and to add a couple of
+	GPL-related files to be included. All this in prep for uploading to our
+	github repository. No changes to the code.
+	* Makefile.am: Add in some git and gpl related items. There is a add_head
+	target the automates editing to add in the header while preserving the
+	current timestamps for the files. Some of these are *very* old. You must be
+	the owner of the files to preserve the timestamps.
+
+2018-10-17  Dale Shuman  <dshuman@cisc1>
+
+	* surcontrol.sh: add in --mca pml ob1 flag to get around a sometimes fatal
+	error when mpirun invokes processe(s). This seems to be due to a bug in a
+	library that mpirun uses, not in mpirun itself.
+	* host_dialog.c: Do the same for the mpirun testmpi command that checks for the
+	hosts being present.
+	* configure.ac: bump to 6.11.9
+	* surcontrol.sh: Now have to run the last testcch in this script using
+	mpirun because if not, the MPI_Init function prints an error that is
+	returned to the script instead of the number of pairs, so the script never
+	terminates.
+
+2018-05-16  Dale Shuman  <dshuman@cisc1>
+
+	* configure.ac: bump to version 6.11.8.
+
+2018-05-02  Dale Shuman  <dshuman@cisc1>
+
+	* surcontrol.sh: New openmpi has new behavior, seems to confuse number of
+	cores and number of cpus, add in flag to force use of cores.
+
+2018-05-02  dshuman@health.usf.edu
+
+	* configure.ac: bump to 6.11.7
+	Have to rebuild to be compatible with new libs.
+	* host_dialog.c: Add in a couple of print statements that may help the next
+	time the API changes.
+
+2018-02-16  Lauren Segers  <lsegers@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): keep
+	stim/marker codes in the excluded array when making QDT files;
+	only cell codes should be completely expunged
+
+2018-02-15  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump the rev to 6.11.6
+
+	* analyze_data.f (analyze_data): fixed crash when try to direct
+	access to an invalid pair and xanalysis then tries to display the
+	previous valid pair; added a test to be sure that not trying
+	to display an invalid pair (array index of 0 not a good idea)
+
+2018-02-12  Lauren Segers  <lsegers@health.usf.edu>
+
+	* analyze_data.f (analyze_data): stop retaining names of qdt
+	files previously associated with a db file within the qdt_files()
+	array and the qdtfilenames text string
+
+2017-08-17  Dale Shuman  <dshuman@cisc1>
+
+	* configure.ac: bump rev to 6.11.5
+	* configure.ac: New libgsl-dev breaks this package. Rebuild package using
+	new libs.
+
+2017-03-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.11.4
+
+	* host_dialog.c (host_dialog): ignore a leading '#' on 'host
+	slots=x' lines in /etc/openmpi/openmpi-default-hostfile.  This
+	allows these lines to be commented out so mpirun won't override
+	our slot count choices, while still serving as a list of hosts for
+	host_dialog to ask about.
+
+	* debian/control (Build-Depends): remove hardening-wrapper, which
+	no longer exists.  Fixes FTBFS.
+
+2016-09-26  dshuman@health.usf.edu
+
+	* configure.ac: bump up rev to 6.11.3.  The new libmpi-dev has a version
+   * conflict with xanalysis 6.11.2.  This is a package rebuild only, there
+   * are no changes to the code. I could not find any API changes that
+   * would affect xanalysis.
+
+2016-07-20  dshuman@health.usf.edu
+
+	* edt.c: read_edt:  add in timed retry to open file.  For very large edt
+   * files, testcch runs before NFS has had time to see the .edt file. This
+   * will wait for up to 45 seconds for the file to show up.
+
+2016-07-19  dshuman@health.usf.edu
+
+	* configure.ac: bump up to version 6.11.2
+	* x2000parameter.defs: increase MAX_NUM_ACC_CYCLES from 10000 to 20000 to
+   * accomodate an experiment with ~16000 cycles.
+
+2016-03-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.11.1, rebuild with libopenmpi1.10
+
+2016-01-15  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* scalcn.f (SCALCN): Exit inner loop when
+	i.gt.TOTAL_SELECTED_CYCLES.  Fixes access beyond end of array.
+
+	* respsig6_v4.f (respsig5): compare E_pointer to MAX_CYCLES
+	instead of MAX_NUM_EVENTS.  Fixes access beyond end of array.
+
+	* x_cth_cch.c:
+	(get_ref_tar_and_e, calc_cth_cch):
+	* xanalysis_surrogate.c:
+	(get_spikes, ref_surrogate, tar_surrogate):
+	* x2002array.defs:
+	* x2000parameter.defs:
+	* surrogate_control_c.c (sc_write_edt):
+	* serotonergic_discr_func.f (serotonergic:):
+	(calc_rISI):
+	* scalcn.f (SCALCN):
+	* respsig6_v4.f (respsig5):
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS, CALCULATE):
+	* rdat_universal.f (rdat6):
+	* menus.f (xanalysis, open_and_read):
+	* Makefile.am (x_cth_cch.$(OBJEXT)):
+	(params.h):
+	* intvar4_v2a.f (INTVAR):
+	* interface.defs:
+	* gen_surr_h.pl:
+	* doomed_cells.c (doomed_cells):
+	* cardsig_delta2.f (cardsig_delta2):
+	* calcCTH.f (calcCTH):
+	* calcCCH_newshift_2.f (calcCCH_newshift):
+	* calc_cardCCH.f (calc_cardCCH):
+	* calc_and_write_newshift_cccs.f (calculate_histograms)
+	(percent_completed):
+	* calc_ach_v4.f (calcACH):
+	* analyze_data.f (analyze_data): remove the MAX_CYCLES and
+	MAX_NUM_EVENTS limits by using allocatable arrays.  Remove the
+	MAX_NUM_ACC_CYCLES limit by putting it in the common block instead
+	of declaring it as a parameter, and setting it to MAX_CYCLES,
+	which is now the actual cycle count.
+
+2016-01-13  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (AM_FFLAGS): add -ffixed-line-length-0 to remove the
+	72 column limit from the FORTRAN source files
+
+2016-01-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.10.2, rebuild with libgsl2
+
+	* Makefile.am (install-exec-hook): remove dependent package
+	installation.  The Debian package Depends takes care of that now.
+	Fixes FTBFS with sbuild.
+
+2015-12-14  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.10.1
+
+	* compare_and_convert.f
+	(compare_and_convert_if_add_or_delete_units): change REF and TAR
+	to IDs(REF) and IDs(TAR).  Fixes db files when adding a cell to a
+	dataset after analysis.
+
+2015-08-25  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.10.0
+
+	* x2000parameter.defs: increase MAX_NUM_EVENTS from 500000 to
+	1000000
+
+2015-07-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.16
+
+	* debian/control (Depends): added libspreadsheet-parseexcel-perl
+
+2015-05-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.15
+
+	* print_and_write_routines.f (print_or_write_ALL_CCHs): call
+	strlength() before ps_text2d().  Fixes invalid .ps file and
+	subsequent failure to print.
+
+2014-11-13  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.14
+
+	* ps_plot_1.f (ps_plot): initialize 'rate' to Nan, and don't
+	calculate 'rate' if the ICN array used in the calculation was not
+	passed in.  Fixes crash when writing a .ps file for a CTH.
+
+2014-07-18  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.13
+
+	* gammafit_search_nopin.c (cth_t_est, getseg_n): change DIE to
+	exit(DIE).  Silences compiler warning.
+
+	* print_and_write_routines.f (print_or_write_ALL_CCHs): call
+	sc_subtract() before ps_plot().  Fixes surrogate controls
+	misplaced on preview plot.
+
+2014-06-13  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.12
+
+	* x2000parameter.defs: put MAX_NUM_EVENTS back to 500000 (6.9.11
+	had debug value of 50000 left in).
+
+2014-06-10  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.11
+
+	* showCCHs6_newshift.f (showCCHs): pass ICN0 instead of empty
+	array to new_plot.  Fixes segfault in new_plot.
+
+2014-05-09  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.10
+
+	* database_write_new.f (database_write):
+	* analyze_data.f (analyze_data): replace gasping with hypoxia #2.
+
+2014-04-08  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.9
+
+	* database_write_new.f (database_write): skip codes for which
+	IDs(k) is zero.  Fixes runtime bounds check error.
+
+2014-04-02  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.8
+
+	* showCTHs_v3.f (showCTHs): pass ICN0 instead of empty array to
+	new_plot.  Fixes segfault in new_plot.
+
+	* debian/postinst.template: hard link with
+	/home/roconnor/common/postinst.template to share common
+	postinst.template and still have postinst.template in the
+	tarball. Relies on releasepgk to make package-specific
+	debian/postinst out of it.
+
+2014-04-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* analyze_data.f (analyze_data): make sure IDs(i) is not zero
+	before indexing analyzed_cells with it.  Fixes runtime bounds
+	check error.
+
+2014-02-27  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.7
+
+2014-02-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS): Don't use stored
+	zero values of MIN_CYCLE and MAX_CYCLE from *_minmax.txt as cycle
+	length limits, because zeroes indicate that no limits were
+	selected, i.e. all control cycles were selected.
+
+2014-02-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f (showCCHs): declare "CCHs",
+	"CONTROLs_1", "CONTROLs_2", "REF_ACHs", "TAR_ACHs", and
+	"CONTROLs_cl" as SAVE.  Fixes valgrind "uninitialized" messages.
+
+	* analyze_data.f (analyze_data): initialize total_num_pairs.
+	Fixes "may be used uninitialized" message from compiler.
+	(analyze_data): initialize sig_only to 'n'.  Fixes valgrind
+	"uninitialized" message.
+	(analyze_data): initialize id at the top, not just later on.
+	Fixes valgrind "uninitialized" message.
+
+	* filesize.c (filesize): use the string length passed by Fortran
+	in case the caller didn't append a 0 byte.  Fixes dependency on
+	uninitialized memory.
+
+	* host_dialog.c (host_dialog): skip lines in
+	/etc/openmpi/openmpi-default-hostfile beginning with a number
+	sign.  Fixes spurious error when a host/slots line is commented
+	out.
+
+	* qdttxt_write.f (write_QDTTXT): initialize zmodsig* and
+	card_type.  Fixes valgrind "uninitialized" error during
+	"upper_case".  (read_QDTSAV only fills in as many zmodsig as there
+	are ID codes, not MAX_NUM_CHAN)
+
+	* x_cth_cch.c (get_first_last, get_ref_cth): change "while(cn...)"
+	to "while(cn+11...)".  Fixes access beyond end of array.
+
+	* cardsig_delta2.f (cardsig_delta2): initialize DELTA2temp to
+	NaN. Fixes valgrind "uninitialized" error.
+
+2014-02-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE): comment out apparently
+	useless code.  Fixes valgrind "uninitialized" error.
+	(RESP_CYCLE_STATS): initialize mean_I and std_dev_I to NaN.  On
+	the first call to CALCULATE, these were uninitialized, resulting
+	in a bad, but unused, value of rec_BW, which gets set properly
+	afterwards.
+	(RESP_CYCLE_STATS): initialize region1 and MM.  Fixes valgrind
+	"uninitialized" errors.
+
+	* Makefile.am (interface.h interface.defs): add
+	x2000parameter.defs to dependencies.  Fixes build error when array
+	size parameters are changed.
+
+	* showCTHs_v3.f (showCTHs):
+	* ps_plot_1.f (ps_plot):
+	* new_plot.f (new_plot): make character variable arguments
+	assumed-length.  Fixes run-time errors with -fcheck=bounds
+
+	* configure.ac: bump rev to 6.9.6
+
+	* showCCHs6_newshift.f (showCCHs):
+	* print_and_write_routines.f (print_or_write_ALL_CCHs): pass an
+	unused length 1 character string for scaledup instead of an empty
+	one.  Fixes segfault in ps_plot at
+	if(hist_type.ne.'CCH')scaledup='n'
+
+	* menus.f (enter_info_filename): declare TOTAL_NUM_SHIFTS
+	integer.  Fixes argument type mismatch.
+
+	* analyze_data.f (analyze_data): declare NORM_BW real.  Fixes
+	argument type mismatch.
+
+	* showCTHs_v3.f (showCTHs):
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE, RESP_CYCLE_STATS):
+	* print_and_write_routines.f (print_or_write_ALL_CCHs):
+	* showCCHs6_newshift.f (showCCHs): pass zeroed ICN array to
+	new_plot and ps_plot instead of empty array.  Fixed segfault in
+	at if((ICN(2).eq.sum_of_all_bins).and.(ICN(1).gt.0))then
+
+2014-02-18  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (xanalysis_SOURCES): delete unused
+	convert.f write_qdttxt_intro.f
+
+	* surrogate_control_c.c (sc_buttons): call draw_button as
+	__mod_new_draw_button_MOD_draw_button. Necessary due to
+	modularization.
+
+	* stats6.f (statistics):
+	* showCTHs_v3.f (showCTHs):
+	* showCCHs6_newshift.f (showCCHs, ENTER_ANALYSIS_RESULTS):
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS, CALCULATE):
+	* print_and_write_routines.f (print_or_write_DIFF_CCH)
+	(print_or_write_ALL_CCHs, print_or_write_CTHs):
+	* new_draw_button.f (draw_button):
+	* locate_region.f (locate_region):
+	* database_write_new.f (database_write):
+	* calc_and_write_newshift_cccs.f (calculate_histograms)
+	(percent_completed):
+	* acumsum_nomad_2.f (qsum): make actual argument types match dummy
+	arguments in subroutine calls.  Fixes compile errors introduced
+	with modularization.
+
+	* compare_and_convert.f
+	(compare_and_convert_if_add_or_delete_units): change unused
+	hist_num to ihist_num to match read_preDBP definition
+
+	* read_and_write_pre_files.f (read_preDBP): declare unused
+	argument 'date_exp' as character*11 to match calls.
+
+	* Makefile.am (RESP_CYCLE_STATS_3_v4.o, acumsum_nomad_2.o)
+	(analyze_data.o, betai.o, calc_and_write_newshift_cccs.o)
+	(cardsig_delta2.o, compare_and_convert.o, convert.o)
+	(database_write_new.o, menus.o, new_plot.o, picktypetest2.o)
+	(plot_spikes_per_cycle.o, print_and_write_routines.o, ps_plot_1.o)
+	(qdttxt_write.o, rdat_universal.o)
+	(read_and_write_ref_electrode_data.o, read_info_file.o)
+	(respsig6_v4.o, serotonergic_discr_func.o, showCCHs6_newshift.o)
+	(showCTHs_v3.o, stats6.o, write_qdttxt_intro.o): add dependencies
+	between object files so they are compiled in the right order for
+	the module dependencies (done with which_mod.pl.2).
+
+	* dump_dbsav.f (dump_dbsav): add module "use" statement for
+	mod_read_and_write_DBSAV.
+
+	* acumsum_nomad_2.f:
+	* analyze_data.f:
+	* betacfkm.f:
+	* betai.f:
+	* calc_ach_v4.f:
+	* calc_and_write_newshift_cccs.f:
+	* calc_cardCCH.f:
+	* calcCCH_newshift_2.f:
+	* calcCTH.f:
+	* cardsig_delta2.f:
+	* clear_routines.f:
+	* compare_and_convert.f:
+	* database_write_new.f:
+	* enter_date.f:
+	* gammln.f:
+	* get_info_IDcodes.f:
+	* intvar4_v2a.f:
+	* locate_region1.f:
+	* locate_region2.f:
+	* locate_region.f:
+	* mean_and_sd_routines.f:
+	* menus.f:
+	* miscellaneous_subroutines.f:
+	* new_draw_button.f:
+	* new_plot.f:
+	* picktypetest2.f:
+	* plot_spikes_per_cycle.f:
+	* print_and_write_routines.f:
+	* ps_plot_1.f:
+	* qdttxt_write.f:
+	* rdat_universal.f:
+	* read_and_write_DBSAV.f:
+	* read_and_write_pre_files.f:
+	* read_and_write_ref_electrode_data.f:
+	* read_info_file.f:
+	* RESP_CYCLE_STATS_3_v4.f:
+	* respsig6_v4.f:
+	* scalcn.f:
+	* serotonergic_discr_func.f:
+	* showCCHs6_newshift.f:
+	* showCTHs_v3.f:
+	* stats6.f:
+	* test_draw_button.f: make each file into a module, and add module
+	"use" statments in each subroutine for the modules it uses (done
+	using which_mod.pl.2)
+
+	* read_and_write_pre_files.f (clear_pert_fields):
+	* analyze_data.f: move clear_pert_fields from analyze_data.f to
+	read_and_write_pre_files.f to break module dependency loop.
+
+2014-02-15  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.5
+
+	* showCCHs6_newshift.f (showCCHs): add "save BINWtexts".  Fixes
+	trash in CCH binwidth labels.
+
+	* commonChangeLog:
+	* ps_starbase.c:
+	(maybe_stroke, setrgb, calc, ps_line_type, ps_draw2d)
+	(ps_rectangle, ps_move2d, ps_text2d, ps_append_text, ps_direct):
+	integrate pslinemerge.pl into the Postscript generation code, so
+	pslinemerge.pl is no longer necessary.
+
+	* surrogate_control_c.c (sc_buttons): add length-of-string
+	arguments when calling draw_button from C.  Fixes potential use of
+	invalid memory.
+
+	* showCCHs6_newshift.f (showCCHs): add two missing arguments to
+	draw_button.
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS):
+	* calc_and_write_newshift_cccs.f (percent_completed): change ninth
+	argument of draw_button from 0 to " ".  Should be character type
+	to match definition.
+
+2014-02-12  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.4
+
+	* edt_from_surr.c (read_edt, get_ids_from_culled_edt)
+	(get_surrogates, gen_edt):
+	* surgen.c (get_ratefunc, lock, load, check_surrogates):
+	* pairloop.c (read_pair, pair_loop, lock, write_pair, pair_plot):
+	* testcch.c (main, read_binwidths):
+	* write_persav_file.c (write_persav_file, get_persav_filename)
+	(ask_for_name):
+	* host_dialog.c (setup_passwordless, getcpuint, check_host):
+	* minmax.c (read_minmax, write_minmax):
+	* pair.c (read_pair):
+	* surrogate_control_c.c (sc_file, get_ids_from_edt, get_spcnt)
+	(sc_write_edt, write_binwidths, start_surcontrol, sc_label)
+	(sc_label2):
+	* write_sta_file.c (write_sta_file):
+	* copy_tsfs_files.c (choose_spikefile, copy_tsfs_files):
+	* x_cth_cch.c (rebin):
+	* xanalysis_surrogate.c (plot_t_est):
+	* rootsize.c (screensize):
+	* xanalysis_surrogate.c (st_to_bdt): check return value of
+	asprint, etc.  Silences compiler warnings when using
+	DEB_BULD_HARDENING=1
+
+	* debian/control (Depends): add the packages that are installed in
+	an autotools install by the install-exec-hook in Makefile.am
+
+	* Makefile.am (EXTRA_DIST): add debian
+	(install-exec-hook): delete copy to /lab/SOURCES
+
+2014-02-07  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* xls2csv.pl:
+	* menus.f (enter_info_filename):
+	* retrieve_info.tcl:
+	* Makefile.am (dist_bin_SCRIPTS): change xls2csv.pl to XLS2CSV.pl.
+	Fastest way for now to fix conflict with atlas when installed as
+	Debian packages.
+
+2014-01-29  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.3
+
+	* rootsize.c (screensize): allow for text in between 'connected'
+	and the screen size in xrandr output.  Fixes tiny window in VM.
+
+2013-10-29  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.2
+
+	* xanalysis_run_script: change "rm nohup" to "rm -f nohup".
+	Eliminates error message when "nohup" doesn't exist.
+
+2013-10-25  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.1
+
+	* xanalysis_fix_script.pl: exit with error if the CONTINUE
+	question is not seen in the script.  Fixes hang and trash on
+	screen if the user exits xanalysis_nohup early.
+
+	* Makefile.am (install-exec-hook): install expect-dev if not
+	installed.  Fixes failure to run xanalysis_nohup.
+
+2013-10-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.9.0
+
+	* doomed_cells.c (doomed_cells): fix initialization of "doomed"
+	array.  Bug caught by compiler.
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS):
+	* README (NOHUP MODE):
+	* Makefile.am (dist_bin_SCRIPTS, install-exec-hook):
+	* calc_and_write_newshift_cccs.f (calculate_histograms): add nohup mode
+
+2013-08-09  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.8.5
+
+	* locate_region.f (locate_region): disable SINGLE SHIFT buttom for
+	qdt file version 8 and greater, not just version 8.
+
+	* showCCHs6_newshift.f (showCCHs):
+	* locate_region.f (locate_region):
+	* stats6.f (statistics): eliminate the dead region of the KEEP
+	CURRENT VALUES button on the stats screen.
+
+2013-07-31  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* database_write_new.f (database_write): change "ux2dos" to "todos
+	<".  ux2dos does not exist on Debian systems.
+
+2013-07-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.8.4
+
+	* Makefile.am (dist_bin_SCRIPTS): add cch_rates.pl
+
+2013-06-11  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev. to 6.8.3
+
+2013-06-11  Lauren Segers  <lsegers@health.usf.edu>
+
+	* database_write_new.f (database_write): force meanISI values from
+	'*******' to '0.0'. Fixes crash when database_write tries to
+	handle the Peggy Mason statistic values.
+
+2013-06-03  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump rev to 6.8.2
+
+	* respsig6_v4.f (respsig5): re-change binary test to use all
+	cycles WITH chunking in groups of isubBIN cycles (due to static
+	array dimensions of IY)
+
+2013-05-31  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.8.1
+
+	* rootsize.c (screensize): initialize 'line' and 'alloc'.  Fixes
+	segmentation fault.
+
+2013-05-30  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.8.0
+
+2013-05-29  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): delete
+	unused "ITAL" argument from respsig5 call.
+
+	* showCTHs_v3.f (showCTHs): use a new variable of "# cycles shown"
+	stringlenth.  Fixes truncation of "# cycles shown" number on
+	screen.
+
+	* xsbf.c (sb_gopen):
+	* rootsize.c (screensize): make window sizing work on dual
+	asymmetrical monitors.
+
+	* respsig6_v4.f (respsig5): set isubmaxBIN = 0 before each binary
+	respiratory significance test.  Ensures that all cycles are used
+	for the binary test, without chunking.
+
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE): includes last cycle in
+	respiratory significance tests.
+
+	* showCTHs_v3.f (showCTHs):
+	* showCCHs6_newshift.f (showCCHs):
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS):
+	* print_and_write_routines.f (print_or_write_ALL_CCHs)
+	(print_or_write_CTHs):
+	* Makefile.am (xanalysis_SOURCES):
+	* calc_and_write_newshift_cccs.f (calculate_histograms)
+	(phase_bins):
+	* analyze_data.f (analyze_data):  add phase-normalized CTHs
+
+2013-03-05  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.13
+
+	* analyze_data.f (analyze_data):
+	* read_and_write_pre_files.f (read_preDBG): use iostat.ne.0 for
+	EOF condition.  Fixes reading past end of preDBG extra file with
+	lots of error messages.
+
+2013-02-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.12
+
+	* analyze_data.f (analyze_data): add "caroCO2hyper" label for
+	perturbation #9
+
+	* database_write_new.f (database_write): change "blank
+	perturbation 1- general" to "Carotid CO2 during hyperventilation-general"
+
+2012-11-02  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* menus.f (xanalysis): don't write *_per_filename file in View
+	mode.  Fixes runtime error when viewing without write access.
+
+2012-10-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* README: add description of surrogate control plots
+
+2012-10-09  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.11
+
+	* surrogate_control_c.c (sc_hist):
+	* stats6.f (statistics): use surrogate control for stats (if
+	available).
+
+2012-04-04  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.10
+
+	* database_write_new.f (database_write): add missing quote to
+	NUM_EVENTS file.  Fixes failure to import into Gaia.
+
+2012-01-24  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.9
+
+	* ../xanalysis/tools.c (recip_isi): look for a file named
+	DONT_LOWPASS_FILTER_SURROGATES and x2000/*_surrogates disable
+	lowpass for surrogate generation if it can be opened for read.
+
+	* Makefile.am (xanalysis_SOURCES): remove unused
+	spiketimes_to_edt.c
+
+2012-01-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.8
+
+	* Makefile.am (bin_PROGRAMS):
+	(edt_from_surr_SOURCES):  added edt_from_surr
+
+2011-11-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.7
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): fix
+	truncated line, silences compiler warning.
+
+	* Makefile.am (AM_FFLAGS): -Wno-conversion - silences new (buggy?)
+	compiler warnings
+
+	* showCCHs6_newshift.f (ENTER_ANALYSIS_RESULTS): delete fildes
+	declaration, include gopen_type.defs - fixes compile warning
+
+	* setup_passwordless_login: close before wait - fixes hang
+	wait for scp to complete - fixed failure to set up
+
+2011-03-15  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.6
+
+	* read_and_write_pre_files.f (read_preDBG, read_preDBP): add the
+	'IOMSG' error message returned by 'read' to error reports.
+
+	* menus.f (xanalysis): write the per.db filename to
+	x2000/*_per_filename so the database write can find the .per.sav
+	file.
+
+	* write_persav_file.c:
+	* Makefile.am (xanalysis_SOURCES):
+	* database_write_new.f (database_write): write comments and file
+	names from .per.sav file to files in the Gaia directory during
+	database write, for import to Gaia.
+
+	* database_write_new.f (database_write): allow the user to write a
+	cell data even if it was not analyzed.
+
+2011-01-26  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.5
+
+	* copy_tsfs_files.c (choose_spikefile): don't loop on empty
+	input.  Fixes failure of "press Enter if you didn't run tsfs for
+	this experiment" to work.
+
+2011-01-24  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.4
+
+	* surrogate_control_c.c:
+	(sc_plot): Don't draw the right side of the last bin.  Fix
+	vertical line artifact in last bin of histogram.
+
+	* ps_plot_1.f (ps_plot): add color to Postscript output
+
+2011-01-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f (showCCHs): turn off scaling for surrogate
+	control when doing unscaled plot.  Fixes massively offset
+	surrogate control.
+
+	* README: add TYPES OF CORRELATION AND CONTROLS section
+
+2010-12-04  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* new_plot.f (new_plot):
+	* ps_plot_1.f (ps_plot): Add a comment to the code that
+	compensates for a bug fixed in 6.5.5 in the rate calculation.
+	Fixes "rate calculation message for mirror is not being
+	displayed" below, which wasn't a bug after all, and fixes spending
+	lots of time trying to figure out again what the code does.
+
+2010-12-02  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.3
+
+	* tools.c (surrogate): free and malloc instead of
+	realloc.  Fixes running out of memory.
+
+	* ps_plot_1.f (ps_plot):
+	* showCCHs6_newshift.f (showCCHs):
+	* new_plot.f (new_plot): move the calls to sc_mirror from ps_plot
+	and new_plot to showCCHS.  Fixes failure of the surrogate control
+	to flip for the mirror plot.  STILL TO FIX: rate calculation
+	message for mirror is not being displayed.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): make
+	"longest selected cycle" actually display that instead of longest
+	control cycle, and add another line to display longest control
+	cycle.
+
+2010-11-30  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.2
+
+	* surrogate_control_c.c (get_ids_from_edt, sc_file, sc_buttons)
+	(sc_label, sc_label2): Don't try to show surrogate control if the
+	culled spikefile does not exist.  Fixes fatal error when there are
+	no surrogates.
+
+2010-11-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.1
+
+	* spiketimes_to_edt.c: don't include avl.h
+
+2010-11-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (xanalysis_SOURCES): add pair.h and host_dialog.h.
+	Fixes FTBFS.
+	(dist_bin_SCRIPTS): instead of bin_SCRIPTS.  Fixes scripts not
+	getting distributed.
+	(EXTRA_DIST): remove the scripts that are now in dist_bin_SCRIPTS,
+	they are no longer needed here.
+
+	* RESP_CYCLE_STATS_3_v4.f (z): move module zfunc above the
+	subroutine RESP_CYCLE_STATS that uses it.  Fixes "Can't open
+	module file 'zfunc.mod'"
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): change
+	"EXCLUDED from CTH calculation" to "EXCLUDED from all
+	calculations"
+
+	* surrogate_control_c.c (sc_pair, sc_plot, warn): delete debug
+	messages.
+
+	* surrogate_control_c.c (sc_file): add cell code to error message.
+
+	* surrogate_control_c.c (get_ids_from_edt): don't look at
+	non-existent code 0.  Fixes access to location before array.
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS): grab the minmax
+	values just before saving them, instead of when they are
+	generated.  Fixes garbage values when no selections are made.
+
+	* README: document parallel computation
+
+	* showCCHs6_newshift.f (showCCHs):
+	* print_and_write_routines.f (print_or_write_ALL_CCHs)
+	(print_or_write_STATS): restore font size after printing large
+	warning.  Fixes giant labels on preview.
+
+	* Makefile.am (files): add testcch_SOURCES and testmpi_SOURCES
+
+	* configure.ac: remove gfortran from AC_PROG_CC, and add
+	AM_PROG_CC_C_O to allow separate flags for MPI programs in
+	Makefile.am.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): report
+	"Waiting for surrogate generation to complete" so the user won't
+	think xanalysis is hung.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): reject
+	cycles that have multiple I-pulses, not just cycles with none.
+
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE):
+	* calc_and_write_newshift_cccs.f (calculate_histograms): use f0.1
+	format for longest cycle to avoid exceeding field width.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): report
+	the longest cycle in the file as well as the longest selected
+	cycle when asking "Accept these default values?" for longest
+	cycles to be included, and delete the mention of shift-control
+	CCHs, and add "for CTHs" to "the longest selected cycle".
+
+	* doomed_cells.c:
+	* Makefile.am (xanalysis_SOURCES): Don't allow the user to include
+	cells that will have no spikes in acceptable cycles.
+
+2010-11-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* surrogate_control_c.c (sc_file, sc_pair): enter surrogate
+	directory only briefly to read spcnt and pair data.
+
+	* setup_passwordless_login:
+	* host_dialog.c:
+	* Makefile.am (bin_SCRIPTS, xanalysis_SOURCES)
+	(install-exec-hook):
+	* surrogate_control_c.c (sc_write_edt): allow user to choose the
+	number of processors to use for the surrogate control, set up
+	passwordless login automatically, and install required packages
+	automatically
+
+	* Makefile.am (testcch_SOURCES, testcch_CFLAGS, testcch_LDFLAGS)
+	(bin_PROGRAMS): add testcch
+	(testmpi_SOURCES, testmpi_CFLAGS, testmpi_LDFLAGS, bin_PROGRAMS):
+	add testmpi
+	(bin_SCRIPTS): add setup_passwordless_login
+
+	* copy_tsfs_files.c (choose_spikefile, copy_tsfs_files): give the
+	user the option of not trying to copy tsfs files (if they don't
+	exist).
+
+2010-11-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.7.0
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS, z):
+	* README:
+	* Makefile.am (dist_doc_DATA, xanalysis_SOURCES):
+	* calc_and_write_newshift_cccs.f (calculate_histograms): save the
+	cycle, Ti, Te duration choices, and use them if they exist.  Makes
+	it possible to precisely recreate results.
+
+	* surcontrol.sh
+	* pair.c:
+	* surrogate_control_c.c:
+	* spiketimes_to_edt.c:
+	* xsbf.c (is_print):
+	* showCCHs6_newshift.f (showCCHs):
+	* ps_plot_1.f (ps_plot):
+	* print_and_write_routines.f (print_or_write_ENLARGED_CCH)
+	(print_or_write_ALL_CCHs, print_or_write_STATS):
+	* new_plot.f (new_plot):
+	* make_params_h.pl:
+	* Makefile.am (bin_SCRIPTS, xanalysis_SOURCES):
+	* locate_region.f (locate_region):
+	* calc_and_write_newshift_cccs.f (calculate_histograms):
+	* analyze_data.f (analyze_data): add surrogate control
+
+2010-08-10  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.21
+
+	* Makefile.am (xanalysis_SOURCES): add sbparam.h
+
+	* serotonergic_discr_func.f (serotonergic,calc_rISI):
+	* new_plot.f (new_plot):
+	* analyze_data.f (analyze_data): Apparently. with gfortran version
+	4.4.5 20100728, integer function parameters that are not
+	implicitly integer must be declared before being used as
+	subscripts.  Moved declarations accordingly.
+
+2010-08-07  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* copy_tsfs_files.c (choose_spikefile, copy_tsfs_files): ask the
+	user the name of the spike file used by tsfs.  Fixes old data
+	being imported to Gaia.
+
+2009-10-26  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* pslinemerge.pl: allow negative drawing coordinates.  Fixes
+	unreadable ps file.
+
+2009-10-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* menus.f (enter_date_rec_protocol_name): remove leading space
+	from default recording number.  Fixes failure to import UNITS.txt
+	to GAIA.
+
+2009-06-04  Lauren Segers  <lsegers@health.usf.edu>
+
+	* stats6.f (statistics): add calculation of effectiveness and
+	contribution
+
+2009-06-03  Lauren Segers  <lsegers@health.usf.edu>
+
+	* database_write_new.f (database_write): added 2 more output files
+	to store the number of events in each spike train and to store the
+	effectiveness (synaptic strength) measure for a cell pair with a
+	peak as the primary feature
+
+2009-06-02  Lauren Segers  <lsegers@health.usf.edu>
+
+	* stats6.f (statistics): added print lines to stats6.f
+
+	* configure.ac: bump rev to 6.6.20
+
+	* analyze_data.f (analyze_data): initialized IDs_extra array to 0
+	(analyze_data): added routine to put recording numbers in imported
+	files (rec_import variable) in a format to match recording variable
+
+2009-06-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac :bump rev to 6.6.19
+
+	* x2000parameter.defs: increase MAX_NUM_EVENTS from 450000 to
+	500000
+
+2009-05-29  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.18
+
+	* analyze_data.f (analyze_data): initialized IDs_per array to 0
+
+2009-04-24  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.17
+
+	* x_cth_cch.c (rebin): force the binwidth to be an exact integer
+	number of ticks
+
+	* menus.f (enter_binwidths): force .bdt binwidths to a multiple of
+	.5
+
+2009-03-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.16
+
+	* copy_tsfs_files.c (copy_tsfs_files): create an empty file for
+	GAIA to import if there is no file to copy.  Fixes GAIA trying to
+	import data from a previous experiment.
+
+2009-03-10  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.15
+
+	* database_write_new.f (database_write): 
+	* Makefile.am (xanalysis_SOURCES): 
+	* write_sta_file.c (write_sta_file): generate the sta import file
+	for gaia from the sta output file when doing a database write.
+
+2008-12-12  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.14
+
+	* copy_tsfs_files.c (copy_tsfs_files): leave spikefilename out of
+	the tsfs files names for GAIA
+
+	* configure.ac: bump rev to 6.6.13
+
+2008-12-11  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (xanalysis_SOURCES):  add copy_tsfs_files
+	* copy_tsfs_files.c (copy_tsfs_files): added
+	* database_write_new.f (database_write): call copy_tsfs_files
+
+2008-11-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.12
+
+	* read_and_write_DBSAV.f (read_QDTSAV): stop if there are problems
+	reading the qdt.sav file in the CYA code.
+
+	* analyze_data.f (analyze_data): delete cell 862 debug messages
+
+	* read_and_write_DBSAV.f (write_QDTSAV): delete spurious format
+	descriptor
+
+2008-11-14  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.11
+
+	* ps_plot_1.f (ps_plot): back out other half (hardcopy) of the
+	change to display spikes/sec on scale-up plot.  The value is not
+	correct.
+
+2008-11-12  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.10
+
+	* new_plot.f (new_plot): back out change to display spikes/sec on
+	scale-up plot.  The value is not correct.
+
+2008-09-08  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (bin_SCRIPTS, EXTRA_DIST): add spikes_by_phase.pl to
+	the package.
+
+2008-07-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.9
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): set flag
+	to 0 before reading cardiac pulse.  Fixes infinite loop when you
+	try to set no cardiac after entering an invalid cardiac.
+
+2008-07-14  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev. to 6.6.8
+
+	* database_write_new.f (database_write): reindent some
+	(database_write): if QDTSAV is version 6, make it version 7,
+	because it will be written as 7
+
+	* Makefile.am (xanalysis_SOURCES): remove database_write_3_v5.f
+
+2008-05-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bumpr rev to 6.6.7
+
+2008-05-01  Lauren Segers  <lsegers@health.usf.edu>
+
+	* database_write_new.f (database_write): add writing of txt files
+	for GAIA database for no-inflation data 
+
+2008-04-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* compare_and_convert.f
+	(compare_and_convert_if_add_or_delete_units): delete debug prints
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): add "must
+	have decimal point" message
+
+	* configure.ac: bump rev to 6.6.6
+
+	* read_and_write_pre_files.f (write_preDBG, write_preDBP): 
+	* read_and_write_DBSAV.f (write_DBSAV): 
+	Don't complain about a blank global_compare_and_convert_flag
+	unless just looking
+
+	* configure.ac: bump rev to 6.6.5
+
+	* x2000parameter.defs (main): add global_compare_and_convert_flag
+	to common
+
+	* read_and_write_pre_files.f (write_preDBP, write_preDBG)
+	(read_preDBG): use I12 for printing the cell number in case it's
+	more than 3 digits.
+
+	* read_and_write_DBSAV.f (write_DBSAV): 
+	write the file when you're just looking if
+	global_compare_and_convert_flag is set to 'y'
+	
+	* menus.f (xanalysis): initialize the
+	global_compare_and_convert_flag
+
+	* compare_and_convert.f
+	(compare_and_convert_if_add_or_delete_units): set the
+	global_compare_and_convert_flag
+
+2008-02-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.4
+
+	* menus.f (enter_date_rec_protocol_name): replace a leading 0 with
+	a space in the default recording number.  Fixes mismatch when the
+	default is accepted.  Also, request no leading zeros.
+
+2007-11-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.3
+
+	* surrogateChangeLog: changes to gammafit_search.c and
+	gammfit_search_nopin.c
+	
+	* Makefile.am (EXTRA_DIST): add surrogateChangeLog
+
+	* compare_and_convert.f
+	(compare_and_convert_if_add_or_delete_units): change change l_qdt
+	to l_sav in strlength.  Fixes segfault.
+
+2007-10-25  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.2
+
+	* x_cth_cch.c (get_ref_cth): don't call get_first_last, call it
+	from calc_cth_cch - part of local cth_cch change.
+	(get_tar_cth2): make tstart global so it carries over between
+	local cth_cch's.
+	(cmp_tar_cth) delete unused cmp_tar_cth
+	(add_cch): routine to accumulate local cth_cch's
+	(calc_cth_cch): rewrite to calculate local cth_cch's on each 20
+	respiratory cycles and add them up for the final result.  Reduces
+	sensitivity to non-stationarity.
+
+2007-10-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* x_cth_cch.c (get_first_last): initialize "last" array to -2, so
+	get_tar_cth2 will skip cycles with no ref spikes.
+
+2007-10-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): use FDATE
+	instead of DATE for finish time, so the time is included.
+
+	* x_cth_cch.c (calc_cth_cch): disable writing "temp.bdt" on every
+	call to calc_cth_cch.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): change
+	message from "calculating shift-control CCHs" to "calculating
+	CTH-based control CCHs" when in cth_cch mode.
+
+2007-10-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.1
+
+	* x_cth_cch.c (get_first_last): make maxclen the length of the
+	longest cycle with spikes instead of twice the maximum distance of
+	a spike from an e-pulse.  Fixes excessively short controls when
+	there are very few reference spikes.
+
+	* analyze_data.f (analyze_data): print the PER_FILENAME so that in
+	case it's not found, the user can tell what it was looking for.
+
+	* x_cth_cch.c (rebin): handle the case of rebinning to wider than
+	maxclen.  Fixes segfault after calculating CCHs.
+
+2007-10-18  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f (showCCHs): don't draw 'USE CTRL' button on
+	stats screen, since it does nothing.
+	(showCCHs): make 'CALCULATE STATISTICS USING' label smaller so it
+	doesn't overlap buttons.
+	(showCCHs): change button label from SHIFT-CONTROL to CONTROL when
+	in cth_cch mode
+	(showCCHs): force show_avg_shift unless show_single_shift is set,
+	when entering statistics screen.  Also, show confidence limits and 
+	force show_3_sd unless show_2_sd is set.
+
+2007-10-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.6.0
+
+	* xanalysis_shift: new script to run xanalysis in shift control
+	mode
+
+	* Makefile.am (EXTRA_DIST, bin_SCRIPTS): add xanalysis_shift
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): move
+	histogram_number increment inside qdt file loop for overlays so
+	that the final histogram_number is
+	total_histograms*total_num_qdts.  Fixes 99% when finished.
+	(percent_completed): Do the final update even if it's been less
+	than 1 second since the last update.
+	Fill in the skipped blocks on each update.
+	Don't need special test for 100% complete.
+	
+	* qdttxt_write.f (write_QDTTXT): write cth_cch control information
+	instead of shift control information when in cth_cch mode.
+
+	* print_and_write_routines.f (print_or_write_ENLARGED_CCH)
+	(print_or_write_ALL_CCHs, print_or_write_STATS): set caption to
+	"cch control" instead of "shift control" when using cth_cch
+	control.
+
+	* showCCHs6_newshift.f (showCCHs): set caption to "cch control"
+	instead of "shift control" when using cth_cch control.
+
+2007-10-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f (showCCHs): don't draw single shift
+	button when file_version == 8 (cth_cch mode).
+
+	* locate_region.f (locate_region): Disable avg shift
+	button when file_version == 8 (cth_cch mode).
+
+	* ps_plot_1.f (ps_plot): 
+	* new_plot.f (new_plot): leave spikes/sec on the screen when the
+	plot is scaled up.
+
+	* analyze_data.f (analyze_data): Don't let the user enter a
+	reference and a target that are the same.  Avoids incorrect
+	"Datasave file ... may be corrupted" message (mack_bug_071011).
+
+	* commonChangeLog: includes changes to xsbf.c on 2007-08-17,
+	ps_starbase.c on 2007-08-17 and 2007-10-16, and to
+	miscellaneous_subroutines.f on 2007-06-29.
+
+	* xanalysis_surrogate.h: update the definition of tar_surrogate
+	now that it passes the E-pulse information for the cth_rate
+	surrogate.
+
+	* xanalysis_surrogate.c: provide for selecting the smoothed rate
+	surrogate when environment variable SURROGATE_USE_SMOOTHED_RATE is
+	set, and the cth rate surrogate when SURROGATE_USE_CTH_RATE is
+	set.  Plot the surrogate when XANALYSIS_SURROGATE_PLOT is set.
+
+2007-10-15  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f (showCCHs): When showing a cth_cch control
+	(version.eq.8) use the first control in the file and use the
+	second for standard deviation, ignoring the single/average shift
+	selection.  Also, don't subtract anything from the second one when
+	scaling the control, since it's a standard deviation and not yes a
+	confidence limit.
+
+	* ps_plot_1.f (ps_plot): 
+	* new_plot.f (new_plot): add common qdt_file_version.  Plot
+	cth_cch controls if qdt_file_version.eq.8
+
+	* menus.f (xanalysis): set version to 8 when using the cth_cch
+	control
+
+	* filesize.c (_GNU_SOURCE): added for strdup with --std=c99
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): add
+	connections to the cth_cch control and use it unless the
+	environment variable XANALYSIS_CONTROL is set to "cycle_shift" or
+	"surrogate"
+	(percent_completed): don't update display unless it's been at
+	least 1 second since the last update.  Greatly speeds up
+	calculations in some circumstances.
+
+	* calcCCH_newshift_2.f (calcCCH_newshift): Fix occasional missed
+	CCH counts.
+	Delete unused REFtmp, TARtmp, stl, st.
+	Use array assignment to initialize IHIST instead of a loop.
+
+	* analyze_data.f (analyze_data): add common qdt_file_version and
+	set it when qdtsav file is read.
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS): add debug facility
+	to set range of selected cycles, ignoring the actual user
+	selection, when the environment variable XANALYSIS_DEBUG is set to
+	"on".
+
+	* Makefile.am (xanalysis_SOURCES): add gammafit_search_nopin.c,
+	unpin_nopin.c, util.h, x_cth_cch.c, params.h, interface.h,
+	interface.defs, and plot.c
+	make calc_and_write_newshift_cccs.f depend on interface.defs
+	make x_cth_cch.c depend on interface.h and params.h
+	(AM_FFLAGS): delete -fbounds-check
+	(AM_CFLAGS): add  --std=c99 -DNOPIN
+	add rules for params.h and interface.h
+	
+2007-10-12  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am (EXTRA_DIST): add make_interface.pl,
+	make_params_h.pl, and interface.txt for cth_cch
+
+2007-09-24  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f: unlabel labeled do's and if's,
+	and reindent.
+
+2007-09-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* read_and_write_DBSAV.f (write_DBSAV):
+	* read_and_write_pre_files.f (write_preDBG,write_preDBP): don't
+	write if global_mode.eq.'jl'
+
+	* analyze_data.f (analyze_data): remove backup of gasp.db.sav
+	(analyze_data): assign mode to global_mode before backup.
+	(analyze_data): don't back up if mode .eq. 'jl'
+
+	* xanalysis_surrogate.h: fix ref_surrogate and tar_surrogate
+	declarations
+
+	* x2000parameter.defs: add global_mode common
+
+2007-08-31  Lauren Segers  <lsegers@health.usf.edu>
+
+	* stats6.f (statistics):Add warning to user that +INF is not allowed for
+	detectability index value.
+
+	* database_write_new.f (database_write): updated code for
+	detecting and writing information for "extra" cells (cells that
+	appear in the PER data from xassist but that are not included in
+	CCH analysis.  Filesize now used to calculate number of extra
+	cells in the file rather that relying on ios error code to know
+	when have reached end of file.
+
+2007-08-30  Lauren Segers  <lsegers@health.usf.edu>
+
+	* analyze_data.f (analyze_data): line 1324: info_prev_imported='n' and
+	per_prev_imported='n' moved inside the if(mode.eq.'cr')
+	conditional -- they were always being set to 'n' even if
+	originally 'y' (from DBSAV file); remove conditional statement for
+	displaying options for the edit CTH menu (approx. line 2803) and
+	move label 260 to the print statement
+
+2007-08-29  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms):
+	initialize BINW2 so that if there is no cardiac pulse, you won't
+	wind up with asterisks in the qdtsav, making it unreadable.
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS,CALCULATE): make
+	binwidths slightly larger for the cycle length histograms so that
+	the longest cycles get displayed and so that it works even if all
+	cycles are the same length.
+
+2007-08-17  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* stats6.f (statistics): make ipkgrnd and ibkgrnd real.  Fixes INF
+	detectability index.
+
+2007-07-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* database_write_3_v5.f
+	* enter_date.f
+	* mean_and_sd_routines.f
+	* ps_plot_1.f
+	* read_and_write_pre_files.f
+	* serotonergic_discr_func.f
+	* test_draw_button.f
+	* calc_cardCCH.f: 
+	* clear_routines.f: 
+	* stats6.f: 
+	* locate_region2.f: 
+	* locate_region1.f: 
+	* new_plot.f: 
+	* locate_region.f: 
+	* showCTHs_v3.f: 
+	* plot_spikes_per_cycle.f: 
+	* intvar4_v2a.f: 
+	* respsig6_v4.f: 
+	* cardsig_delta2.f:
+	* calcCCH_newshift_2.f:
+	* normalizeone4_v2a.f:
+	* calcCTH.f, scalcn5_v2a.f, calc_ach_v4.: untabify
+
+	* display_selected_cycles.f (DISPLAY_SELECTED_CYCLES): untabify
+
+	* xanalysis_surrogate.h: fix declarations of ref_surrogate and
+	tar_surrogate
+
+	* x2000parameter.defs (function): untabify
+
+2007-06-27  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.25
+
+	* xsbf.c: see commonChangeLog for changes dated 2007-06-22
+	
+	* read_info_file.f (read_info_file): don't print
+	expname_import or length
+	(read_info_file): don't print icell
+
+	* analyze_data.f (analyze_data): don't print opening qdt
+
+	* new_plot.f (new_plot): don't print sum of all bins.
+
+	* menus.f (xanalysis): don't print QDT format version
+	(xanalysis): don't print MAX_NUM_PAIRS
+
+	* Makefile.am (xanalysis_SOURCES): delete getrlimit.c
+
+	* menus.f (xanalysis): don't call print_stack_limit
+
+	* mean_and_sd_routines.f (dp_real_mean_and_sd): don't print
+	length, mean, and SD.
+
+	* serotonergic_discr_func.f (calc_rISI): abort if there are dups
+
+2007-06-25  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* analyze_data.f (analyze_data): write DBSAV file before reading
+	info file.
+
+	* analyze_data.f (analyze_data): convert labels on do loops to
+	comments so emacs indents works.
+
+2007-06-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* read_info_file.f (read_info_file): send me mail if "not in IDs
+	and not extra" occurs
+
+	* acumsum_nomad_2.f (qsum): don't ask for first bin for average
+	range - always use 1.
+
+	* stats6.f (statistics): 
+	* showCCHs6_newshift.f (showCCHs, ENTER_ANALYSIS_RESULTS): 
+	* analyze_data.f (analyze_data): 
+	* acumsum_nomad_2.f (qsum): 
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS): 
+	Make all the request_locator timeouts 2e9 seconds (63 years)
+	except for the autoview timeout.  2e9 is the biggest number that
+	will fit in 32 bits and 3 characters.  Fixes printing by itself
+	every 5 minutes.
+	
+	* acumsum_nomad_2.f (qsum): close the qsum plot window (as if
+	CLICK HERE TO CONTINUE was clicked) if the user clicks the close
+	box on the qsum plot window (the one titled Q_SUM).
+
+2007-06-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* acumsum_nomad_2.f (qsum): fildes -> fildes2: the wrong screen's
+	text size was being set.  Fixes small text on QSUM screen.
+	(qsum): move character size setting to before the first text2d
+	that uses it and make the values smaller.  Fixes small text on Y
+	axis.
+	(qsum): don't call clear1 on fildes (the first window).  Fixes
+	disappearing bin range plot.
+	(qsum): move up bottom of view port to make room for X axis
+	labels.  Move left label a little to the right.
+	(qsum): untabify, reindent
+
+	* showCCHs6_newshift.f (showCCHs): reindent
+
+	* configure.ac: bump rev to 6.5.24
+
+	* database_write_3_v5.f (database_write_old):  use a larger temporary
+	(text50) to avoid string truncation reported by f90.
+
+	* print_and_write_routines.f (print_or_write_CTHs): use a larger temporary
+	(text80) to avoid string truncation reported by f90.
+	(print_or_write_QSUM): use a larger temporary
+	(text160) to avoid string truncation reported by f90.
+
+	* database_write_new.f (database_write): use a larger temporary
+	(text50) to avoid string truncation reported by f90.
+
+	* read_and_write_ref_electrode_data.f (write_ref_electrode_data): 
+	* qdttxt_write.f (write_QDTTXT): 
+	* database_write_3_v5.f (database_write_old): 
+	* read_and_write_DBSAV.f (read_DBSAV): 
+	* print_and_write_routines.f (print_or_write_QSUM): 
+	* ps_plot_1.f (ps_plot): 
+	* write_qdttxt_intro.f (write_qdttxt_intro): 
+	* stats6.f (statistics): 
+	* new_plot.f (new_plot): delete the comma after the control
+	information list in write statements to make f90 happy.
+
+	* acumsum_nomad_2.f (qsum): delete the comma after the control
+	information list in write statements to make f90 happy.
+	(qsum): use a larger temporary (text130) to avoid string
+	truncation reported by f90.  Delete unecessary char(0).
+
+	* showCTHs_v3.f (showCTHs, showCTHs): use a larger
+	temporary (text80) to avoid string truncation reported by f90.
+	Delete unecessary char(0)'s.
+
+	* showCCHs6_newshift.f (showCCHs):  delete the comma after the control
+	information list in write statements to make f90 happy.
+
+	* plot_spikes_per_cycle.f (plot_spikes_per_cycle): use a larger
+	temporary (text130) to avoid string truncation reported by f90.
+
+	* analyze_data.f (analyze_data): assign one space to CTHsaved, not
+	two, because it is character*1.  Avoids warning from f90.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): convert
+	TEMP_durations(i) to real for AMAX1 and AMIN1 to make f90 happy
+	(calculate_histograms): use a larger temporary (text300) to avoid
+	string truncation reported by f90.
+
+	* Makefile.am: change FORT77 to F90
+
+	* configure.ac (AC_PROG_F77): check for f90 instead of f77
+	
+	* configure.ac: bump rev. to 6.5.23
+
+	* stats6.f (statistics): 
+	* ps_plot_1.f (ps_plot):
+	* print_and_write_routines.f (print_or_write_STATS):
+	remove debug prints
+
+2007-06-20  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.22
+
+	* showCCHs6_newshift.f (showCCHs): corrected issues with mirroring
+	the shift correctly for use with statistics calculations
+
+	* showCCHs6_newshift.f (showCCHs): 
+	* analyze_data.f (analyze_data): add hot keys 2 and 3 to display 2
+	and 3 standard deviations, respectively, on the main CCH screen
+
+	* acumsum_nomad_2.f (qsum): make sure first_bin is at least 1 and
+	last_bin is at most 101.
+
+	* configure.ac: bump rev to 6.5.21
+
+	* stats6.f (statistics): make sure IPKS and IBKS >= 2
+
+	* remove spurious stats_bw from calls to print_or_write_STATS.
+	Fixes bounds violation due to invalid entries in IDs array.
+	
+	* stats6.f (statistics): add debug prints
+
+	* read_info_file.f (read_info_file): skip lines from the info file
+	for excluded cells (not included and not extra), and print a
+	message.  Fixes code that depended on an invalid state of the
+	"extra" variable.
+	Change a printed message from "not in the .edt file" to "not in
+	IDs and not extra", to be more precise.
+
+	* ps_plot_1.f (ps_plot): added debug prints
+
+2007-06-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* print_and_write_routines.f (print_or_write_STATS) 
+	(print_or_write_ENLARGED_CCH, print_or_write_DIFF_CCH) 
+	(print_or_write_ALL_CCHs, print_or_write_CTHs) 
+	(print_or_write_QSUM): use gv instead of gs
+
+	* print_and_write_routines.f (print_or_write_STATS): added debug
+	print
+
+2007-06-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.20
+
+	* incorporate changes dated 2007-06-05, 2007-06-06, and 2007-06-18
+	to xsbf.c.  See commonChangeLog.
+	
+	* read_info_file.f (read_info_file): reindent
+	(read_info_file): skip lines from the info file for which the cell
+	is not in the .edt file
+
+2007-05-24  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.19
+
+	* analyze_data.f (analyze_data): don't prompt for comment at end
+	of ENTER_DATA loop, since no response is read anyway
+
+2007-05-24  Lauren Segers  <lsegers@health.usf.edu>
+
+	* analyze_data.f (analyze_data): fix two comments
+
+	* analyze_data.f (analyze_data): when editing cell data for resp
+	pattern, sort, visual cardiac mod, change
+	analyzed_cells(IDs(cell)) to 1 to allow entrance into if-then
+	segment at 218
+
+2007-05-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* respsig6_v4.f (respsig5): exit loop [1-5]076 if spiketime == 0.
+
+	* configure.ac: bump rev to 6.5.18
+
+	* RESP_CYCLE_STATS_3_v4.f (RESP_CYCLE_STATS): print min and max
+	selected so a run can be duplicated from the log (for replicating
+	a bug).
+
+2007-05-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* respsig6_v4.f (respsig5): exit loop 6076 if spiketime == 0.
+	Fixes out of bounds error when last spike was in an unselected
+	cycle.
+
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE): untabify, reindent
+	(CALCULATE): set l_la before using it.  Fixes segfault that showed
+	up when debug prints were inserted in the file.
+
+	* respsig6_v4.f (respsig5): reindent
+
+2007-05-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.17
+
+	* print_and_write_routines.f (print_or_write_ALL_CCHs): reindent,
+	fixing a long line.
+
+	* picktypetest2.f (picktypetest1): fix long line
+	(level2): reindent, fixing long line
+
+	* read_info_file.f (read_info_file): 
+	* get_info_IDcodes.f (get_info_IDcodes): increase size of commas
+	and quotes arrays from 50 to 300.  Fixes segfault reading info
+	file.
+
+	* Makefile.am (dump_dbsav_SOURCES): turn on bounds check
+
+2007-05-18  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.16
+
+	* showCCHs6_newshift.f (showCCHs): fill-paragraph on showCCHs
+	subroutine
+	(showCCHs): include gopen_type.defs instead of declaring
+	integer*4 fildes
+
+	* analyze_data.f (analyze_data, analyze_data): fill-paragraph on
+	showCCHs call.  Fixes truncated line causing segfault on show
+	pairs.  gfortran doesn't detect a 73 character line.
+
+	* Makefile.am (AM_FFLAGS): add -frecord-marker=4
+	-fconvert=big-endian
+	(xanalysis_SOURCES): remove unformatted_io.c.  Fixes per file read
+	error
+
+	* analyze_data.f (analyze_data): restore old code to read perfile
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): restore
+	old code to write the unformatted file *_mean_E.sav
+
+	* analyze_data.f (analyze_data): restore old code to read
+	the unformatted file *_mean_E.sav
+
+	* Makefile.am (bin_SCRIPTS): add xls2csv.pl
+	* Makefile.am (EXTRA_DIST): add xls2csv.pl
+	fixes info file error on new system installs
+	
+2007-05-11  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.15
+
+	* analyze_data.f (analyze_data): partial reindent
+	(analyze_data):
+	change qdtfilenames(k:k+l-1) to qdtfilenames(k+1:k+l+1)
+	and
+	qdtfilenames(j:j+l) to qdtfilenames(j:j+l+1)
+	Fixes truncation of qdt file names in DBSAV file.
+
+	* menus.f: reindented
+
+2007-05-10  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.14
+
+	* read_and_write_ref_electrode_data.f (read_ref_electrode_data):
+	stop if array_ref.sav cannot be read.
+
+	* read_and_write_DBSAV.f (read_QDTSAV): stop if the QDTSAV header
+	cannot be read.
+
+	* database_write_new.f (database_write): use jTOTAL_SHIFTS in both
+	read_QDTSAV and write_QDTSAV, rather than TOTAL_NUM_SHIFTS in
+	read_QDTSAV and jTOTAL_SHIFTS in write_QDTSAV, which caused
+	uninitialized data to get written.  Fixes "1cannot read header for
+	QDTSAV 2005-12-15_001_final_short.qdt.sav"
+
+	* read_and_write_ref_electrode_data.f (read_ref_electrode_data):
+	Use filesize to determine the number of electrode arrays in the
+	file, instead of continuing to read at end of file, which
+	generates an error with gfortran, but apparently not with HP-UX
+	f77.  fixes 9: error reading 2005-12-15_001_ARRAY_REFS.sav
+	and associated segfault on linux systems.
+
+	* dump_dbsav.f (dump_dbsav): new program
+
+	* Makefile.am (bin_PROGRAMS): add dump_dbsav
+
+	* filesize.c (filesize): free cname when done
+
+	* configure.ac: bump rev to 6.5.13
+
+	* analyze_data.f
+	* calc_and_write_newshift_cccs.f
+	* compare_and_convert.f
+	* database_write_3_v5.f
+	* database_write_new.f
+	* qdttxt_write.f
+	* read_and_write_DBSAV.f
+	* read_and_write_ref_electrode_data.f
+	* read_info_file.f
+	* write_qdttxt_intro.f
+	delete STATUS='UNKNOWN' in open statements.  According to the
+	Fortran 2003 spec, "If this specifier is omitted, the default
+	value is UNKNOWN.", so it is unnecessary.  Also, "If the file to
+	be connected to the unit is the same as the file to which the unit
+	is connected only the specifiers for changeable modes may have
+	values different from those currently in effect.  ... If the
+	STATUS= specifier is included in such an OPEN statement, it shall
+	be specified with the value OLD."  So we get an error if we
+	re-open an open file with STATUS='UNKNOWN'.  Fixes error=3 while
+	trying to open the DBSAV file.
+
+2007-05-03  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.12
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): delete
+	unused SYSTEM declarations
+
+	* analyze_data.f (analyze_data): use concat to generate qdt_sav(i)
+	instead of doing it "by hand"
+
+	* acumsum_nomad_2.f (qsum): delete unused 'EXTERNAL SYSTEM'
+
+	* database_write_new.f (database_write): 
+	* compare_and_convert.f (compare_and_convert_if_add_or_delete_units):
+	* analyze_data.f (analyze_data):
+	declare SYSTEM to be INTEGER*4.  Fixes bad return value from
+	SYSTEM that was causing 'Backup operation failed.'
+	Leave it declared EXTERNAL so it will work with fort77 (fort77's
+	intrinsic SYSTEM is a subroutine, not a function).
+
+	* analyze_data.f (analyze_data): 'rep. carotidCO2' ->
+	'r.carotidCO2' because per_text_abbrev() is character*12
+
+2007-04-27  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.11
+
+	* analyze_data.f (analyze_data): correction to be sure that
+	appropriate qdt file is opened for CTHs to show ACHs at minimum
+	binwidths. Also resolved discrepancy between CCH binwidths and
+	"change qdt file" buttons at top of initial CCH screen.
+
+2007-04-26  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.10
+
+	* plot_spikes_per_cycle.f (plot_spikes_per_cycle): scale red &
+	blue plot according to the number of acceptable cycles.  Fixes
+	lack of plot when num_acc_cycles > 3000.
+	(plot_spikes_per_cycle): show number of acceptable cycles on
+	enlarged CCH screen
+
+2007-03-30  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.9
+
+	* read_and_write_DBSAV.f (read_QDTSAV): don't print qdt version
+	number here.
+	(read_QDTSAV): don't print qdt version number here (2 places).
+
+	* menus.f (xanalysis): print qdt version number here.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): add
+	comment for surrogate control
+
+	* analyze_data.f (analyze_data): don't print current directory
+	(analyze_data): <sp> for next pair, not <cr>
+
+2007-03-29  Lauren Segers  <lsegers@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.8
+
+	* read_and_write_DBSAV.f (read_QDTSAV): remove debug iomsg
+
+	* menus.f (xanalysis): version number increased to 7; version
+	number is noted in *.db.sav and *.qdt.sav files.  New version
+	provides space for new 10,000 cycle limit.
+
+2007-03-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.7
+
+2007-03-21  Lauren Segers  <lsegers@health.usf.edu>
+
+	* ps_plot_1.f (ps_plot): added information to enlarged CCH saying
+	that method of calculating rate is different for mirrored CCHs
+
+	* print_and_write_routines.f: replaced ps_print.sh with lpr
+
+2007-03-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f: call write_4bytes to write the
+	files named *_mean_E.sav correctly on both big-endian and
+	little-endian systems.
+	
+	* analyze_data.f (analyze_data): call read_4bytes to read the
+	files named *_mean_E.sav and read_perfile to read the per.db files
+	correctly on both big-endian and little-endian systems.  Fixes
+	crash on cisc1.
+
+	* unformatted_io.c (read_4bytes, read_perfile): add routines to
+	read and write unformatted files correctly on both big-endian and
+	little-endian systems.
+
+	* analyze_data.f: declare mean_E real
+
+2007-03-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.6
+
+	* calc_and_write_newshift_cccs.f, new_plot.f: comment out some
+	debug messages
+
+2007-03-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* new_plot.f (new_plot): don't use ITAL to calculate the rate
+	unless ICN(1) > 0.  Fixes crash on RISC2.
+
+2007-03-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.5
+
+	* calcCCH_newshift_2.f (calcCCH_newshift): correct LAST_REF and
+	LAST_TAR calculation.
+
+2007-03-16  Lauren Segers  <lsegers@health.usf.edu>
+
+	* new_plot.f (new_plot): qdt files calculated using versions prior
+	to 6.5.5 contain incorrect values for LAST_REF and LAST_TAR (ICN(1)
+	and (ICN(2)) -- LAST_REF was the number of reference events that could
+	be matched with at least one target event for that particular CCH; 
+	LAST_TAR was the total number of target events represented in that CCH,
+	which was the same number as the sum of all bins;  this caused a
+	large error in spikes/sec for mirrored plots.  new_plot now
+	detects these incorrect values and uses ITAL instead to calculate
+	the rate and adds information to the enlarged CCH saying so.
+
+2007-03-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calcCCH_newshift_2.f (calcCCH_newshift): make
+	LAST_REF and LAST_TAR be the last used spike indexes in the
+	histogram.  Fixes the spikes/sec calculation.
+
+2007-03-08  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.4
+
+	* menus.f: change st_autoCCH and st_autoSTA to autoCCH and autoSTA
+
+2007-03-07  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.3
+
+2007-03-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* RESP_CYCLE_STATS_3_v4.f: round rec_offset (=stim_offset) to the
+	nearest .5 ms.
+
+	* Makefile.am (bin_SCRIPTS): remove st_xanalysis_dev
+	(EXTRA_DIST): remove st_xanalysis_dev 
+
+	* menus.f: st_autoACH -> autoACH
+	* menus.f: st_autoCTH -> autoCTH
+
+	* test_draw_button.f: 
+	* clear_routines.f: 
+	* stats6.f: 
+	* new_plot.f: 
+	* new_draw_button.f: 
+	* showCTHs_v3.f: 
+	* plot_spikes_per_cycle.f: 
+	* RESP_CYCLE_STATS_3_v4.f: 
+	* display_selected_cycles.f: 
+	* analyze_data.f: 
+	* calc_and_write_newshift_cccs.f: suppress warnings for unused
+	fildes2
+
+	* Makefile.am (xanalysis_SOURCES): add ps_starbase.h
+	(EXTRA_DIST): add commonChangeLog
+
+2007-03-05  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f: I4->I5 for 10000 cycle limit
+
+	* qdttxt_write.f: change 500 to 10000 in text string
+
+	* calc_and_write_newshift_cccs.f: 
+	* RESP_CYCLE_STATS_3_v4.f: change menu items from 500 cycles to
+	10000 cycles
+
+	* Makefile.am (EXTRA_DIST): add xanalysis_old
+
+	* scalcn5_v2a.f: 
+	* calc_and_write_newshift_cccs.f: 
+	* normalizeone4_v2a.f: 
+	* calcCTH.f: 
+	* x2000parameter.defs: replace MAX_NUM_CYCLESx with MAX_CYCLES
+	everywhere and change MAX_CYCLES to 10000
+
+2007-02-28  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* gopen_type.defs.in: 
+	* acumsum_nomad_2.f: declare fildes2 in gopen_type.defs
+
+	* Makefile.am (xanalysis_SOURCES): remove getlog.c
+
+	* menus.f: 
+	* analyze_data.f: 
+	* acumsum_nomad_2.f: remove unused getlog
+
+2007-02-23  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.2
+
+	* Makefile.am (AM_FFLAGS): remove bounds_check
+
+	* Makefile.am (AM_LDFLAGS): pass a -N flag to the linker with
+	FORT77 to provide memory for the new surrogate control
+	(bin_SCRIPTS): add xanalysis_old for running the old-style shift
+	control
+
+	* Makefile.am (LDADD): use static versions of libJudy and libgsl*
+	so that the excutable will run on both RT11 and RISC2.
+
+2007-02-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCCHs6_newshift.f: set keystroke to 0 before passing it to
+	request_locator so we can tell whether to return the key that was
+	pressed in *ordinal.
+	* xsbf.c (request_locator): don't return the key that was pressed
+	if *ordinal==1.  Fixes segfault when hitting a key when it's
+	expecting just a click.
+
+	* xanalysis_surrogate.c (tar_surrogate): allocate the SURR_TIMES
+	array
+
+	* xanalysis_surrogate.h (ref_surrogate): change SURR_TIMES
+	argument to STP.
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): make
+	SURR_TIMES a Cray pointee variable
+	(calculate_histograms): pass STP to tar_surrogate, instead of
+	SURR_TIMES
+
+	* Makefile.am (bin_PROGRAMS): remove expb and surrogate, which
+	were for debug.
+
+2007-02-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* Makefile.am: add -L/usr/local/lib to LDADD for FORT77
+
+	* calcCCH_newshift_2.f (calcCCH_newshift): initialize high to ITAL
+	and low to ITB.  Fixes slow CCH's that shouldn't be.
+
+2007-02-19  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* respsig6_v4.f (respsig5): look for end of begin_E array.  This
+	could explain a lot.
+
+2007-02-16  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* analyze_data.f: initialize total_num_cells_db to 0 so the DBSAV
+	file will be readable
+
+	* Makefile.am (noinst_SCRIPTS): add gen_surr_h.pl
+	(LDADD): add -lJudy
+
+	* xanalysis_surrogate.c: add surrogate generator code
+
+	* Makefile.am: add xanalysis_surrogate.h target
+
+	* gen_surr_h.pl: create to copy fortran params from
+	x2000parameter.defs to xanalysis_surrogate.h
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): splice in
+	calls to the new surrogate code.
+
+2007-02-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac: bump rev to 6.5.1
+
+	* showCCHs6_newshift.f (showCCHs): pass a blank string as the
+	second character argument to draw_button when the argument is not
+	used so that draw_button won't crash when it checks for a blank
+	argument
+
+	* analyze_data.f (analyze_data): use filesize function to find out
+	how many pairs to read from pre_DBG, to avoid IO errors reading
+	past the end of the file.
+	
+	* filesize.c (filesize): add filesize function
+
+2006-12-12  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* RESP_CYCLE_STATS_3_v4.f: add decimal points to constant
+	arguments to text_orientation2d - they need to be real, not
+	integers.
+
+	* xsbf.c (XDrawRotatedString): use ascent and descent for rotated
+	character spacing, instead of non-portable attributes
+
+	* RESP_CYCLE_STATS_3_v4.f: subscript binwidth text to complete the
+	removal of the trailing spaces.
+
+	* serotonergic_discr_func.f (calc_rISI): Can't compare to Nan or
+	INF, so check for ISI=0.
+
+	* plot_spikes_per_cycle.f:
+	MAX_ACC_CYCLES -> MAX_NUM_ACC_CYCLES 
+
+2006-12-12  Russell O'Connor  <roconnor@rt11.hscnet.hsc.usf.edu>
+
+	* print_and_write_routines.f (print_or_write_STATS): delete
+	unreachable statements
+
+	* showCCHs6_newshift.f (showCCHs): if(.true.) to suppress fort77
+	warning
+	(ENTER_ANALYSIS_RESULTS): delete unreachable statement
+
+	* read_and_write_DBSAV.f (read_QDTSAV): fix split error message
+	(read_QDTSAV,write_QDTSAV): remove unreachable goto
+
+	* read_and_write_pre_files.f (read_preDBG): delete IOMSG (fort77
+	no can do)
+
+	* serotonergic_discr_func.f (serotonergic, calc_rISI): can't use
+	MAX in declaration of ISI
+
+	* acumsum_nomad_2.f (qsum): don't put INCLUDE between lines of
+	another statement
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): can't use
+	MAX in declaration of recnum
+
+	* x2000parameter.defs: remove declaration of gopen (has been moved
+	to gopen_type.defs)
+
+2006-12-11  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f: initialize j2 and shift2
+	replace DATE/TIME with FDATE
+	
+	* qdttxt_write.f: 
+	* calc_and_write_newshift_cccs.f: 
+	* analyze_data.f: 
+	replace 2x edit descriptor with ''  '' to work around compiler
+	bug.
+
+2006-12-06  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): don't
+	dimension TEMP_durations with E_pulse, because it isn't defined
+	yet.
+	(calculate_histograms): don't call cardsig_delta2 if the target
+	cell has no spikes
+
+	* analyze_data.f (analyze_data): .AND. has higher precedence than
+	.EQV.!  Add parentheses.
+
+2006-12-05  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* menus.f (xanalysis): add NULL to string to chdir to
+
+	* read_and_write_DBSAV.f (read_QDTSAV): don't split strings over
+	lines
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): 
+	* acumsum_nomad_2.f: 
+	* analyze_data.f:
+	delete xwdestroy invocations
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): provide
+	record number for direct writes
+
+	* serotonergic_discr_func.f: make sure ISI and rISI dimensions are
+	not negative
+	
+
+2006-12-01  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* normalizeone4_v2a.f (NORMALIZE): MAX_NUM_CHAN instead of
+	max_num_events for TALLY_NORM
+
+	* write_qdttxt_intro.f: 
+	* acumsum_nomad_2.f
+	* analyze_data.f
+	* calc_and_write_newshift_cccs.f
+	* compare_and_convert.f
+	* convert.f
+	* database_write_new.f
+	* menus.f
+	* read_info_file.f
+	add //char(0) to end of SYSTEM call strings
+
+	* Makefile.am (xanalysis_SOURCES): remove perturbations.defs
+
+	* read_info_file.f: 
+	* menus.f: 
+
+	* RESP_CYCLE_STATS_3_v4.f: fix doubled quotes in window text
+	"TI''s andor Te''s"
+
+	* calc_and_write_newshift_cccs.f: add final three arguments to
+	calls of showCTHs
+
+2006-11-29  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* print_and_write_routines.f: 
+	* display_selected_cycles.f: 
+	* acumsum_nomad_2.f:
+	floatj => float
+
+	* date.c (date): replacement for HP fort77 function
+
+2006-11-22  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* read_and_write_DBSAV.f (read_DBSAV): replace variable format
+	expressions
+
+	* convert.f: add field width to I edit descs
+
+	* mean_and_sd_routines.f (dp_real_mean_and_sd): add field width to
+	F and I edit descs
+
+	* serotonergic_discr_func.f: add field width to F edit descs
+
+	* betai.f (BETAI): replace obsolete PAUSE statement
+
+	* RESP_CYCLE_STATS_3_v4.f (CALCULATE): bin => ibin for array index
+
+	* database_write_new.f: add field width to F edit descs
+
+	* xsbf.c: add stdio.h to include for "stdout"
+	(vdc_to_wc, character_height, character_width, clear_control) 
+	(clear_view_surface, draw2d, line_color, line_type) 
+	(make_picture_current, mapping_mode, move2d, shade_mode, text) 
+	(text_color, text_font_index, vdc_extent, view_port, view_window) 
+	(fill_color_index, fill_color, perimeter_color_index) 
+	(perimeter_color, interior_style, rectangle, sample_locator) 
+	(request_locator, text_orientation2d, gclose, background_color) 
+	(gopen): change filedes to long because it's used as a pointer
+
+	* print_and_write_routines.f: remove unnecessary FLOATs
+	STA_results(ii) => STA_results(ii)(1:1) : arg to ichar has to have
+	length 1
+
+	* miscellaneous_subroutines.f: .eq.' ' => .eq.ICHAR(' ')
+
+	* write_qdttxt_intro.f (write_qdttxt_intro): use do loop instead
+	of variable format expression
+	.eq. => .eqv. for logical expressions
+
+	* read_info_file.f: add field width to I edit descs
+	.eq. => .eqv. for logical expression
+	use derived type for EXTRAS instead of STRUCTURE		
+
+2006-11-21  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* showCTHs_v3.f: remove unnecessary FLOATs
+	STA_results(ii) => STA_results(ii)(1:1) : arg to ichar has to have
+	length 1
+
+	* showCCHs6_newshift.f: valid.eq..false => valid.eq.0 : args must
+	be ints.
+	(showCCHs): eliminate "got 316" jump into block 
+
+	* calcCCH_newshift_2.f: DMIN1 => MIN: args and result are integer
+
+	* cardsig_delta2.f: remove unnecessary FLOAT
+
+	* calcCCH_newshift_2.f: make second arg to DMAX1 and DMIN1 double
+	precision.
+
+	* rdat_universal.f (rdat6): declare COUNT integer for MOD
+	read ('(A)') => read '(A)'
+
+	* analyze_data.f: eliminate ASSIGN statement
+	add field width to I edit descs
+	.eq. => .eqv. for logical expression
+	read ('(A40)') comm => read '(A40)',comm
+	
+
+	* Makefile.am: comment out unnecessary rules
+
+	* calc_and_write_newshift_cccs.f (percent_completed): remove
+	unnecessary FLOAT
+
+	* x2000parameter.defs: declare QDT_RECL, DBG_RECL integer
+
+	* calc_and_write_newshift_cccs.f (calculate_histograms): eliminate
+	variable-format expression
+
+	* menus.f: eliminate ASSIGN statements
+	add field widths
+	read ('(A)') => read '(A)'
+	move $ to end of format
+
+	* configure.ac: 
+	* Makefile.am: only use +e +U77 for fort77
+
+2006-11-20  Russell O'Connor  <roconnor@health.usf.edu>
+
+	* configure.ac (AC_PROG_F77): change g77 to gfortran
+
+2005-04-04  Lauren Segers  <lauren@rt11.sys-neuro.local>
+
+	* configure.ac: name change from x2004 to xanalysis
+	  from v4.9.1 of x2004
+	  rev # now 5.0.0
+
+	* Makefile.am (xanalysis_SOURCES): name change from x2004 to xanalysis
+	  from v4.9.1 of x2004
+
+

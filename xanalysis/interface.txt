@@ -1,0 +1,17 @@
+subroutine calc_cth_cch
+double SPIKETIMES MAX_NUM_EVENTS MAX_NUM_CHAN
+int ital MAX_NUM_CHAN
+int refp
+int tarp
+int eplp
+double f
+
+subroutine rebin_cth_cch
+float binwp
+int ihist NUM_BINS
+
+subroutine rebin_var
+float binwp
+int ihist NUM_BINS
+
+subroutine free_cth_cch

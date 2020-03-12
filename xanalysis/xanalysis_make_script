@@ -1,0 +1,4 @@
+#!/bin/sh
+
+XANALYSIS_MAKE_SCRIPT=on autoexpect -p xanalysis
+xanalysis_fix_script.pl script.exp

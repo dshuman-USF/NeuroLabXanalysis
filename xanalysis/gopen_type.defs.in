@@ -1,0 +1,3 @@
+
+      INTEGER(@SIZEOF_VOID_P@),EXTERNAL :: gopen
+      INTEGER(@SIZEOF_VOID_P@) fildes,fildes2
